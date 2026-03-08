@@ -2,18 +2,21 @@ from flask import Flask, jsonify, request
 from flask_cors import CORS
 from datetime import datetime
 import os
+import re
 
 app = Flask(__name__)
 
 # Configurar CORS para permitir requests desde el frontend
-# Lee la URL del frontend desde variable de entorno
+# Acepta localhost en desarrollo y cualquier dominio de Vercel en producción.
+# Si se necesita un dominio personalizado, configurar la variable FRONTEND_URL en Render.
 frontend_url = os.getenv('FRONTEND_URL', '')
+
 allowed_origins = [
     "http://localhost:5173",
-    "http://localhost:3000"
+    "http://localhost:3000",
+    re.compile(r"https://.*\.vercel\.app"),  # cualquier deploy de Vercel
 ]
 
-# Agregar el dominio de producción si está configurado
 if frontend_url:
     allowed_origins.append(frontend_url)
 
