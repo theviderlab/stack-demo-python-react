@@ -30,13 +30,15 @@ Completa los campos con los siguientes valores:
 - **Build Command**: `pip install -r requirements.txt`
 - **Start Command**: `gunicorn app:app`
 
-### Paso 3: Variables de Entorno (Opcional)
+### Paso 3: Variables de Entorno
 
-Si necesitas configurar variables de entorno:
+Por ahora, puedes dejar las variables de entorno por defecto:
 
-- Click en **"Advanced"**
-- Agregar variables como:
+- Click en **"Advanced"** (opcional)
+- Puedes agregar (opcional):
   - `PYTHON_VERSION`: `3.11.0`
+
+**Nota**: Más adelante (después de desplegar el frontend) regresaremos para agregar `FRONTEND_URL` para configurar CORS.
 
 ### Paso 4: Plan
 
@@ -104,34 +106,17 @@ Completa la configuración:
 
 ### Paso 5: Configurar CORS en Backend
 
-**IMPORTANTE**: Ahora que tienes tu URL de Vercel, debes actualizar el backend.
+**IMPORTANTE**: Ahora que tienes tu URL de Vercel, debes actualizar la configuración del backend en Render.
 
-1. Edita `backend/app.py`
-2. En la línea ~11, actualiza la configuración de CORS:
+1. Ve a tu servicio backend en el [Dashboard de Render](https://dashboard.render.com)
+2. Ve a la sección **"Environment"** en el menú lateral
+3. Click en **"Add Environment Variable"**
+4. Agrega la siguiente variable:
+   - **Key**: `FRONTEND_URL`
+   - **Value**: Tu URL completa de Vercel (ejemplo: `https://tu-proyecto.vercel.app`)
+5. Click en **"Save Changes"**
 
-```python
-CORS(app, resources={
-    r"/api/*": {
-        "origins": [
-            "http://localhost:5173",
-            "http://localhost:3000",
-            "https://tu-app.vercel.app",  # ← Agrega tu URL de Vercel aquí
-        ],
-        "methods": ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-        "allow_headers": ["Content-Type"]
-    }
-})
-```
-
-3. Commit y push los cambios:
-
-```bash
-git add backend/app.py
-git commit -m "feat: agregar dominio de Vercel a CORS"
-git push origin main
-```
-
-4. Render detectará el cambio y re-desplegará automáticamente
+Render re-desplegará automáticamente el backend con la nueva configuración de CORS que permitirá las peticiones desde tu frontend en Vercel.
 
 ### Paso 6: Verificar
 
