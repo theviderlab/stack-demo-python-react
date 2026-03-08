@@ -54,7 +54,7 @@ stack-demo-python-react/
 ### 1. Clonar el Repositorio
 
 ```bash
-git clone https://github.com/tu-usuario/stack-demo-python-react.git
+git clone https://github.com/theviderlab/stack-demo-python-react.git
 cd stack-demo-python-react
 ```
 
